@@ -322,6 +322,7 @@
        PROJECTS
        ═══════════════════════════════════════════════════════════ */
     .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 22px; }
+    .proj-grid.single { grid-template-columns: 1fr; max-width: 640px; margin-inline: auto; }
     .proj {
       background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg);
       overflow: hidden; display: block; position: relative;
@@ -568,21 +569,21 @@
                   <span class="bf-dot" style="background:#28c840"></span>
                   <span class="bf-url">
                     <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-                    jadmar.is
+                    apexdetailing.is
                   </span>
                 </div>
                 <div class="bf-screen">
-                  <div class="mk" style="--mk-grad:linear-gradient(160deg,#0d2318,#163322 60%,#1d4029);--mk-text:#f5f0e1;--mk-muted:rgba(245,240,225,.62);--mk-faint:rgba(245,240,225,.16);--mk-accent:#d4af37;--mk-cta-text:#1a1207;--mk-card:rgba(255,255,255,.05)">
-                    <div class="mk-nav"><span class="mk-brand">JAD MAR</span><span class="mk-links"><i></i><i></i><i></i></span></div>
+                  <div class="mk" style="--mk-grad:linear-gradient(160deg,#05060A,#080A10 55%,#0e1c38);--mk-text:#EEF1F7;--mk-muted:rgba(238,241,247,.62);--mk-faint:rgba(238,241,247,.16);--mk-accent:#1E6FFF;--mk-cta-text:#ffffff;--mk-card:rgba(255,255,255,.05)">
+                    <div class="mk-nav"><span class="mk-brand">APEX</span><span class="mk-links"><i></i><i></i><i></i></span></div>
                     <div class="mk-hero">
-                      <span class="mk-eyebrow">Hárstofa í Garðabæ</span>
-                      <span class="mk-title">Hárið þitt,&#10;okkar listaverk</span>
-                      <div class="mk-row"><span class="mk-cta">Bóka tíma</span><span class="mk-ghost">Verðskrá</span></div>
+                      <span class="mk-eyebrow">Bílasnyrting í Reykjavík</span>
+                      <span class="mk-title">Sýningarsals-&#10;gæði</span>
+                      <div class="mk-row"><span class="mk-cta">Bóka tíma</span><span class="mk-ghost">Þjónusta</span></div>
                     </div>
                     <div class="mk-cards">
-                      <div class="mk-card"><b></b><em>Klipping</em><span>frá 6.900</span></div>
-                      <div class="mk-card"><b></b><em>Litun</em><span>frá 12.900</span></div>
-                      <div class="mk-card"><b></b><em>Greiðsla</em><span>frá 8.500</span></div>
+                      <div class="mk-card"><b></b><em>Keramikhúð</em><span>5 ára vörn</span></div>
+                      <div class="mk-card"><b></b><em>Lakkleiðrétt.</em><span>spegilgljái</span></div>
+                      <div class="mk-card"><b></b><em>Djúphreinsun</em><span>inni & úti</span></div>
                     </div>
                   </div>
                 </div>
@@ -618,8 +619,8 @@
       <div class="container">
         <div class="section-head reveal">
           <span class="eyebrow">Verkin mín</span>
-          <h2 class="h-sec" id="verkin-t">Nokkur dæmi um síður<br/>sem ég hef gert</h2>
-          <p class="sub-sec">Smelltu á síðu til að skoða hana í beinni. Hver síða er sérsniðin að fyrirtækinu og sinni þjónustu.</p>
+          <h2 class="h-sec" id="verkin-t">Sýnidæmi um<br/>vinnuna mína</h2>
+          <p class="sub-sec">Smelltu til að skoða síðuna í beinni — hver síða er sérsniðin að fyrirtækinu og sinni þjónustu. Fleiri sýnidæmi á leiðinni.</p>
         </div>
         <div class="proj-grid" id="proj-grid" role="list" aria-label="Verkefni"></div>
       </div>
@@ -800,31 +801,13 @@
        ═══════════════════════════════════════════════════════════ */
     const projects = [
       {
-        name: "Jad Mar Hárstofa",
-        type: "Hárstofa",
-        url: "https://shimmering-lily-c2fbdb.netlify.app/",
-        domain: "jadmar.is",
-        theme: { bg:"#0d2318", bg2:"#163322", bg3:"#1d4029", accent:"#d4af37", ctaText:"#1a1207", text:"#f5f0e1" },
-        preview: { brand:"JAD MAR", eyebrow:"Hárstofa í Garðabæ", title:"Hárið þitt,\nokkar listaverk", cta:"Bóka tíma", ghost:"Verðskrá",
-          cards:[["Klipping","frá 6.900"],["Litun","frá 12.900"],["Greiðsla","frá 8.500"]] }
-      },
-      {
-        name: "Lava Spa & Nudd",
-        type: "Nuddstofa",
-        url: "https://lavademo.netlify.app/",
-        domain: "lavaspa.is",
-        theme: { bg:"#160500", bg2:"#2d0e00", bg3:"#52190a", accent:"#f97316", ctaText:"#1a0700", text:"#fde8d8" },
-        preview: { brand:"LAVA SPA", eyebrow:"Nudd & vellíðan", title:"Slökun sem\nbræðir þreytuna", cta:"Bóka nudd", ghost:"Meðferðir",
-          cards:[["Heilnudd","60 mín"],["Heitir steinar","75 mín"],["Andlit","45 mín"]] }
-      },
-      {
-        name: "Hárgreiðslustofa Garðabæ",
-        type: "Hárgreiðsla",
-        url: "https://hargreidslustofa.netlify.app/",
-        domain: "hgardabaer.is",
-        theme: { bg:"#1a0f24", bg2:"#2d1840", bg3:"#43215f", accent:"#c084fc", ctaText:"#1a0a25", text:"#f3e9ff" },
-        preview: { brand:"HG GARÐABÆ", eyebrow:"Hárgreiðsla & stíll", title:"Nýtt útlit,\nný sjálfsmynd", cta:"Panta tíma", ghost:"Þjónusta",
-          cards:[["Dömuklipp","frá 7.900"],["Strípur","frá 15.900"],["Blástur","frá 5.500"]] }
+        name: "Apex Detailing",
+        type: "Bílasnyrting & keramikvörn",
+        url: "https://apex-detailin.netlify.app/",
+        domain: "apexdetailing.is",
+        theme: { bg:"#05060A", bg2:"#080A10", bg3:"#0e1c38", accent:"#1E6FFF", ctaText:"#ffffff", text:"#EEF1F7" },
+        preview: { brand:"APEX", eyebrow:"Bílasnyrting í Reykjavík", title:"Sýningarsals-\ngæði", cta:"Bóka tíma", ghost:"Þjónusta",
+          cards:[["Keramikhúð","5 ára vörn"],["Lakkleiðrétt.","spegilgljái"],["Djúphreinsun","inni & úti"]] }
       }
     ];
 
@@ -897,6 +880,7 @@
             </span>`;
         grid.appendChild(a);
       });
+      grid.classList.toggle('single', projects.length === 1);
     }
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
