@@ -323,6 +323,22 @@
        ═══════════════════════════════════════════════════════════ */
     .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 22px; }
     .proj-grid.single { grid-template-columns: 1fr; max-width: 640px; margin-inline: auto; }
+
+    /* Smaller secondary demos below the featured one */
+    .more-label {
+      text-align: center; margin: 46px 0 22px;
+      font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600;
+      letter-spacing: .16em; text-transform: uppercase; color: var(--t3);
+    }
+    .more-label.hidden { display: none; }
+    .proj-grid-more { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    @media (max-width: 760px) { .proj-grid-more { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .proj-grid-more { grid-template-columns: 1fr; } }
+    .proj-sm .proj-shot { padding: 12px 12px 0; }
+    .proj-sm .proj-body { padding: 14px 18px 18px; }
+    .proj-sm .proj-name { font-size: 1.02rem; }
+    .proj-sm .proj-type { font-size: .7rem; }
+    .proj-sm .proj-go { width: 36px; height: 36px; border-radius: 10px; }
     .proj {
       background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg);
       overflow: hidden; display: block; position: relative;
@@ -620,9 +636,11 @@
         <div class="section-head reveal">
           <span class="eyebrow">Verkin mín</span>
           <h2 class="h-sec" id="verkin-t">Sýnidæmi um<br/>vinnuna mína</h2>
-          <p class="sub-sec">Smelltu til að skoða síðuna í beinni — hver síða er sérsniðin að fyrirtækinu og sinni þjónustu. Fleiri sýnidæmi á leiðinni.</p>
+          <p class="sub-sec">Smelltu til að skoða síðuna í beinni — hver síða er sérsniðin að fyrirtækinu og sinni þjónustu.</p>
         </div>
-        <div class="proj-grid" id="proj-grid" role="list" aria-label="Verkefni"></div>
+        <div class="proj-grid" id="proj-grid" role="list" aria-label="Valið verkefni"></div>
+        <p class="more-label reveal" id="more-label">Fleiri sýnidæmi</p>
+        <div class="proj-grid proj-grid-more" id="proj-grid-more" role="list" aria-label="Fleiri sýnidæmi"></div>
       </div>
     </section>
 
@@ -796,10 +814,11 @@
     'use strict';
 
     /* ═══════════════════════════════════════════════════════════
-       PROJECTS — bæta við síðu = einn nýr hlutur í þennan lista.
+       PROJECTS — bæta við síðu = einn nýr hlutur í lista.
        Hver hlutur fær sjálfkrafa fallegan "browser"-forskoðun.
+       featuredProjects = stóra sýnidæmið efst. moreProjects = minni fyrir neðan.
        ═══════════════════════════════════════════════════════════ */
-    const projects = [
+    const featuredProjects = [
       {
         name: "Apex Detailing",
         type: "Bílasnyrting & keramikvörn",
@@ -808,6 +827,36 @@
         theme: { bg:"#05060A", bg2:"#080A10", bg3:"#0e1c38", accent:"#1E6FFF", ctaText:"#ffffff", text:"#EEF1F7" },
         preview: { brand:"APEX", eyebrow:"Bílasnyrting í Reykjavík", title:"Sýningarsals-\ngæði", cta:"Bóka tíma", ghost:"Þjónusta",
           cards:[["Keramikhúð","5 ára vörn"],["Lakkleiðrétt.","spegilgljái"],["Djúphreinsun","inni & úti"]] }
+      }
+    ];
+
+    const moreProjects = [
+      {
+        name: "Jad Mar Hárstofa",
+        type: "Hárstofa",
+        url: "https://shimmering-lily-c2fbdb.netlify.app/",
+        domain: "jadmar.is",
+        theme: { bg:"#0d2318", bg2:"#163322", bg3:"#1d4029", accent:"#d4af37", ctaText:"#1a1207", text:"#f5f0e1" },
+        preview: { brand:"JAD MAR", eyebrow:"Hárstofa í Garðabæ", title:"Hárið þitt,\nokkar listaverk", cta:"Bóka tíma", ghost:"Verðskrá",
+          cards:[["Klipping","frá 6.900"],["Litun","frá 12.900"],["Greiðsla","frá 8.500"]] }
+      },
+      {
+        name: "Hárgreiðslustofa Garðabæ",
+        type: "Hárgreiðsla",
+        url: "https://hargreidslustofa.netlify.app/",
+        domain: "hgardabaer.is",
+        theme: { bg:"#1a0f24", bg2:"#2d1840", bg3:"#43215f", accent:"#c084fc", ctaText:"#1a0a25", text:"#f3e9ff" },
+        preview: { brand:"HG GARÐABÆ", eyebrow:"Hárgreiðsla & stíll", title:"Nýtt útlit,\nný sjálfsmynd", cta:"Panta tíma", ghost:"Þjónusta",
+          cards:[["Dömuklipp","frá 7.900"],["Strípur","frá 15.900"],["Blástur","frá 5.500"]] }
+      },
+      {
+        name: "Lava Spa & Nudd",
+        type: "Nuddstofa",
+        url: "https://lavademo.netlify.app/",
+        domain: "lavaspa.is",
+        theme: { bg:"#160500", bg2:"#2d0e00", bg3:"#52190a", accent:"#f97316", ctaText:"#1a0700", text:"#fde8d8" },
+        preview: { brand:"LAVA SPA", eyebrow:"Nudd & vellíðan", title:"Slökun sem\nbræðir þreytuna", cta:"Bóka nudd", ghost:"Meðferðir",
+          cards:[["Heilnudd","60 mín"],["Heitir steinar","75 mín"],["Andlit","45 mín"]] }
       }
     ];
 
@@ -857,30 +906,38 @@
       return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;
     }
 
+    function buildCard(p, i, compact) {
+      const a = document.createElement('a');
+      a.href = p.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.className = `proj reveal d${(i % 3) + 1}` + (compact ? ' proj-sm' : '');
+      a.setAttribute('role', 'listitem');
+      a.setAttribute('aria-label', `Skoða ${p.name} (opnast í nýjum flipa)`);
+      a.innerHTML = `
+        <div class="proj-shot">${mockup(p)}</div>
+        <div class="proj-body">
+          <div class="proj-meta">
+            <p class="proj-type">${p.type}</p>
+            <h3 class="proj-name">${p.name}</h3>
+          </div>
+          <span class="proj-go" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>`;
+      return a;
+    }
+
     function renderProjects() {
       const grid = document.getElementById('proj-grid');
-      if (!grid) return;
-      projects.forEach((p, i) => {
-        const a = document.createElement('a');
-        a.href = p.url;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        a.className = `proj reveal d${(i % 3) + 1}`;
-        a.setAttribute('role', 'listitem');
-        a.setAttribute('aria-label', `Skoða ${p.name} (opnast í nýjum flipa)`);
-        a.innerHTML = `
-          <div class="proj-shot">${mockup(p)}</div>
-          <div class="proj-body">
-            <div class="proj-meta">
-              <p class="proj-type">${p.type}</p>
-              <h3 class="proj-name">${p.name}</h3>
-            </div>
-            <span class="proj-go" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </span>`;
-        grid.appendChild(a);
-      });
-      grid.classList.toggle('single', projects.length === 1);
+      if (grid) {
+        featuredProjects.forEach((p, i) => grid.appendChild(buildCard(p, i, false)));
+        grid.classList.toggle('single', featuredProjects.length === 1);
+      }
+      const more = document.getElementById('proj-grid-more');
+      if (more) {
+        moreProjects.forEach((p, i) => more.appendChild(buildCard(p, i, true)));
+        document.getElementById('more-label')?.classList.toggle('hidden', moreProjects.length === 0);
+      }
     }
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
