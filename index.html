@@ -4,15 +4,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Garðar — Vefhönnuður í Garðabæ</title>
-  <meta name="description" content="Garðar Freyr — vefhönnuður í Garðabæ. Einfaldar, fallegar heimasíður fyrir lítil fyrirtæki. Fast verð 50.000 kr, afhent á 7 dögum." />
+  <title>Garðar · Vefhönnuður í Garðabæ</title>
+  <meta name="description" content="Garðar Freyr, vefhönnuður í Garðabæ. Einfaldar, fallegar heimasíður fyrir lítil fyrirtæki. Fast verð 50.000 kr, afhent á 7 dögum." />
   <meta name="theme-color" content="#0a0a10" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%236C5CE7'/><stop offset='1' stop-color='%23c084fc'/></linearGradient></defs><rect width='32' height='32' rx='8' fill='url(%23g)'/><text x='16' y='23' font-family='Arial,sans-serif' font-size='20' font-weight='bold' fill='%23ffffff' text-anchor='middle'>G</text></svg>" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Garðar — Vefhönnuður í Garðabæ" />
+  <meta property="og:title" content="Garðar · Vefhönnuður í Garðabæ" />
   <meta property="og:description" content="Einfaldar, fallegar heimasíður fyrir lítil fyrirtæki. Fast verð, afhent á 7 dögum." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="is_IS" />
+  <meta property="og:image" content="og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Garðar – vefhönnun fyrir lítil fyrirtæki í Garðabæ" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Garðar · Vefhönnuður í Garðabæ" />
+  <meta name="twitter:description" content="Einfaldar, fallegar heimasíður fyrir lítil fyrirtæki. Fast verð, afhent á 7 dögum." />
+  <meta name="twitter:image" content="og-image.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -42,7 +53,7 @@
 
       --t1: #f4f2ff;
       --t2: #aaa3cf;
-      --t3: #6b6790;
+      --t3: #8b86ad;
 
       --r-sm: 10px;
       --r-md: 16px;
@@ -321,50 +332,141 @@
     /* ═══════════════════════════════════════════════════════════
        PROJECTS
        ═══════════════════════════════════════════════════════════ */
-    .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 22px; }
-    .proj-grid.single { grid-template-columns: 1fr; max-width: 640px; margin-inline: auto; }
+    /* ── Featured flagship card ── */
+    @property --beam { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+    @keyframes beamspin { to { --beam: 360deg; } }
+    @keyframes sweepx { 0% { transform: translateX(-130%) skewX(-16deg); } 55%,100% { transform: translateX(360%) skewX(-16deg); } }
+    @keyframes glowpulse { 0%,100% { opacity: .8; } 50% { opacity: 1; } }
 
-    /* Smaller secondary demos below the featured one */
+    .feat {
+      position: relative; display: grid; grid-template-columns: 1.1fr .9fr; align-items: stretch;
+      background: var(--card); border-radius: var(--r-xl); margin-bottom: 34px;
+      box-shadow: 0 30px 70px -28px rgba(30,111,255,.5);
+      transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+      will-change: transform;
+    }
+    .feat:hover { transform: translateY(-6px); box-shadow: 0 46px 96px -28px rgba(30,111,255,.66); }
+    /* rotating gradient "beam" border */
+    .feat::before {
+      content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; z-index: 5; pointer-events: none;
+      background:
+        conic-gradient(from var(--beam), transparent 0 56%, rgba(30,111,255,.95) 74%, #cfe0ff 84%, rgba(30,111,255,.95) 92%, transparent 100%),
+        linear-gradient(rgba(30,111,255,.42), rgba(30,111,255,.42));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      animation: beamspin 5.5s linear infinite;
+    }
+    @media (max-width: 760px) { .feat { grid-template-columns: 1fr; } }
+
+    .feat-badge {
+      position: absolute; top: 18px; left: 18px; z-index: 6;
+      display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 100px;
+      background: rgba(11,15,28,.5); border: 1px solid rgba(30,111,255,.55); color: #d6e4ff;
+      font-family: 'Space Grotesk',sans-serif; font-weight: 700; font-size: .72rem;
+      letter-spacing: .12em; text-transform: uppercase; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    }
+    .feat-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: #1E6FFF; box-shadow: 0 0 10px #1E6FFF; position: relative; }
+    .feat-badge .dot::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: #1E6FFF; animation: ping 2s var(--ease) infinite; }
+
+    .feat-visual {
+      position: relative; min-height: 340px; overflow: hidden; display: grid; place-items: center;
+      border-radius: var(--r-xl) 0 0 var(--r-xl);
+      background: linear-gradient(150deg, #0B0B0F 0%, #14141c 55%, #1A1A24 100%);
+    }
+    @media (max-width: 760px) { .feat-visual { border-radius: var(--r-xl) var(--r-xl) 0 0; min-height: 230px; } }
+    .feat-visual .glow { position: absolute; inset: -12%;
+      background: radial-gradient(circle at 50% 42%, rgba(30,111,255,.55), transparent 56%); animation: glowpulse 4.5s var(--ease) infinite; }
+    .feat-visual .grid-lines { position: absolute; inset: 0; opacity: .55;
+      background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+      background-size: 42px 42px;
+      -webkit-mask-image: radial-gradient(ellipse 72% 72% at 50% 50%, #000, transparent 76%);
+      mask-image: radial-gradient(ellipse 72% 72% at 50% 50%, #000, transparent 76%); }
+    .feat-sweep { position: absolute; top: 0; bottom: 0; left: 0; width: 34%; z-index: 2; pointer-events: none;
+      background: linear-gradient(100deg, transparent, rgba(150,188,255,.18) 50%, transparent);
+      animation: sweepx 5.5s var(--ease) infinite; }
+    .feat-wordmark { position: relative; z-index: 3; font-family: 'Space Grotesk',sans-serif; font-weight: 700;
+      font-size: clamp(3rem, 8.5vw, 5.6rem); letter-spacing: .04em; line-height: 1; text-align: center;
+      background: linear-gradient(180deg, #cfe0ff 0%, #1E6FFF 58%, #0a47c8 100%);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: #1E6FFF;
+      filter: drop-shadow(0 0 30px rgba(30,111,255,.6)); }
+    .feat-wordmark small { display: block; font-size: .18em; letter-spacing: .54em; font-weight: 600;
+      color: #8fb6ff; -webkit-text-fill-color: #8fb6ff; margin-top: .6em; margin-left: .28em; filter: none; }
+
+    .feat-body { position: relative; z-index: 1; padding: clamp(28px, 4vw, 48px); display: flex; flex-direction: column; justify-content: center; }
+    .feat-cat { font-size: .78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: #8fb6ff; margin-bottom: 12px; }
+    .feat-title { font-family: 'Space Grotesk',sans-serif; font-size: clamp(1.9rem, 4vw, 2.7rem); color: var(--t1); margin-bottom: 14px; }
+    .feat-desc { font-size: 1.04rem; color: var(--t2); line-height: 1.7; margin-bottom: 28px; max-width: 48ch; }
+    .feat-cta {
+      display: inline-flex; align-items: center; gap: 9px; align-self: flex-start;
+      padding: 14px 26px; border-radius: var(--r-md); background: #1E6FFF; color: #fff;
+      font-family: 'Space Grotesk',sans-serif; font-weight: 600; font-size: .98rem;
+      box-shadow: 0 8px 26px rgba(30,111,255,.45); transition: transform .2s var(--ease), box-shadow .2s var(--ease), background .2s var(--ease);
+    }
+    .feat-cta svg { transition: transform .2s var(--ease); }
+    .feat:hover .feat-cta { background: #3b82ff; box-shadow: 0 12px 32px rgba(30,111,255,.58); }
+    .feat:hover .feat-cta svg { transform: translateX(4px); }
+
+    /* ── Section label between featured and grid ── */
     .more-label {
-      text-align: center; margin: 46px 0 22px;
+      display: flex; align-items: center; justify-content: center; gap: 16px; margin: 10px 0 26px;
       font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600;
       letter-spacing: .16em; text-transform: uppercase; color: var(--t3);
     }
-    .more-label.hidden { display: none; }
-    .proj-grid-more { grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    @media (max-width: 760px) { .proj-grid-more { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 480px) { .proj-grid-more { grid-template-columns: 1fr; } }
-    .proj-sm .proj-shot { padding: 12px 12px 0; }
-    .proj-sm .proj-body { padding: 14px 18px 18px; }
-    .proj-sm .proj-name { font-size: 1.02rem; }
-    .proj-sm .proj-type { font-size: .7rem; }
-    .proj-sm .proj-go { width: 36px; height: 36px; border-radius: 10px; }
+    .more-label::before, .more-label::after { content: ''; height: 1px; width: min(90px, 14vw); background: linear-gradient(90deg, transparent, var(--line-hi)); }
+    .more-label::after { background: linear-gradient(90deg, var(--line-hi), transparent); }
+
+    /* ── Client demos grid (1 / 2 / 3 columns) — each card a living mini-browser ── */
+    .proj-grid { display: grid; grid-template-columns: 1fr; gap: 22px; }
+    @media (min-width: 600px) { .proj-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 900px) { .proj-grid { grid-template-columns: repeat(3, 1fr); } }
+
     .proj {
       background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg);
-      overflow: hidden; display: block; position: relative;
-      transition: transform .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
+      overflow: hidden; display: flex; flex-direction: column; position: relative;
+      transition: transform .25s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
+      will-change: transform;
     }
     .proj::after {
-      content: ''; position: absolute; inset: 0; border-radius: var(--r-lg); pointer-events: none; opacity: 0;
-      background: radial-gradient(360px circle at var(--mx,50%) var(--my,50%), rgba(108,92,231,.12), transparent 60%);
+      content: ''; position: absolute; inset: 0; border-radius: var(--r-lg); pointer-events: none; opacity: 0; z-index: 4;
+      background: radial-gradient(300px circle at var(--mx,50%) var(--my,50%), rgba(108,92,231,.16), transparent 60%);
       transition: opacity .3s var(--ease);
     }
-    .proj:hover { transform: translateY(-7px); border-color: rgba(169,157,255,.45); box-shadow: var(--shadow-lg); }
+    .proj:hover { transform: translateY(-6px); border-color: rgba(169,157,255,.5); box-shadow: var(--shadow-lg); }
     .proj:hover::after { opacity: 1; }
 
-    .proj-shot { padding: 16px 16px 0; }
-    .proj:hover .bf { box-shadow: 0 14px 30px rgba(0,0,0,.35); transition: box-shadow .3s; }
+    .proj-thumb { aspect-ratio: 16 / 11; position: relative; overflow: hidden; }
+    .proj-chrome { position: absolute; top: 0; left: 0; right: 0; height: 28px; z-index: 3; display: flex; align-items: center; gap: 6px; padding: 0 12px;
+      background: rgba(8,8,14,.34); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border-bottom: 1px solid rgba(255,255,255,.09); }
+    .proj-chrome i { width: 8px; height: 8px; border-radius: 50%; display: block; flex-shrink: 0; }
+    .proj-chrome .u { margin-left: 8px; font-size: 10px; color: rgba(255,255,255,.8); font-family: 'Inter',sans-serif;
+      overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .proj-screen { position: absolute; inset: 28px 0 0; display: grid; place-items: center; padding: 8px 16px; }
+    .proj-wordmark { font-family: 'Space Grotesk',sans-serif; font-weight: 700; font-size: clamp(1.15rem, 3vw, 1.6rem);
+      letter-spacing: .01em; text-align: center; line-height: 1.15; text-shadow: 0 1px 14px rgba(0,0,0,.22); }
+    .proj-index { position: absolute; top: 35px; right: 14px; z-index: 3; font-family: 'Space Grotesk',sans-serif; font-weight: 700;
+      font-size: .82rem; color: #fff; opacity: .55; letter-spacing: .06em; mix-blend-mode: overlay; }
+    .proj-overlay { position: absolute; inset: 28px 0 0; z-index: 3; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 18px;
+      background: linear-gradient(to top, rgba(6,6,12,.6), transparent 58%); opacity: 0; transition: opacity .3s var(--ease); }
+    .proj-open { display: inline-flex; align-items: center; gap: 7px; padding: 9px 16px; border-radius: 100px;
+      background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.42); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      color: #fff; font-family: 'Space Grotesk',sans-serif; font-weight: 600; font-size: .82rem;
+      transform: translateY(10px); transition: transform .3s var(--ease); }
+    .proj:hover .proj-overlay { opacity: 1; }
+    .proj:hover .proj-open { transform: translateY(0); }
 
-    .proj-body { padding: 18px 22px 22px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-    .proj-meta { min-width: 0; }
-    .proj-type { font-size: .74rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--t3); margin-bottom: 5px; }
-    .proj-name { font-family: 'Space Grotesk',sans-serif; font-size: 1.18rem; font-weight: 600; color: var(--t1); }
-    .proj-go {
-      flex-shrink: 0; width: 42px; height: 42px; border-radius: 12px; background: rgba(255,255,255,.05);
-      border: 1px solid var(--line-hi); display: grid; place-items: center; color: var(--t2);
-      transition: background .25s, color .25s, transform .25s;
+    .proj-body { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
+    .proj-type { align-self: flex-start; font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--purple-lt);
+      padding: 4px 11px; border-radius: 100px; background: var(--purple-dim); border: 1px solid rgba(169,157,255,.2); margin-bottom: 13px; }
+    .proj-name { font-family: 'Space Grotesk',sans-serif; font-size: 1.18rem; font-weight: 600; color: var(--t1); margin-bottom: 9px; }
+    .proj-desc { font-size: .92rem; color: var(--t2); line-height: 1.6; margin-bottom: 16px; flex: 1; }
+    .proj-link { display: inline-flex; align-items: center; gap: 7px; font-family: 'Space Grotesk',sans-serif;
+      font-weight: 600; font-size: .86rem; color: var(--purple-lt); transition: gap .2s var(--ease); }
+    .proj:hover .proj-link { gap: 11px; }
+
+    /* Freeze decorative motion when reduced motion is requested */
+    @media (prefers-reduced-motion: reduce) {
+      .feat::before, .feat-sweep, .feat-visual .glow, .feat-badge .dot::after { animation: none; }
     }
-    .proj:hover .proj-go { background: var(--purple); color: #fff; transform: rotate(-45deg); border-color: var(--purple); }
 
     /* ═══════════════════════════════════════════════════════════
        PROCESS
@@ -497,6 +599,39 @@
       .hero-browser { transform: none; }
     }
   </style>
+
+  <!-- Staðbundin SEO. Bættu við "url": "https://þitt-len.is" þegar síðan fer í loftið. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Garðar Freyr Valdimarsson – Vefhönnun",
+    "description": "Vefhönnuður í Garðabæ sem hannar einfaldar, fallegar heimasíður fyrir lítil fyrirtæki á föstu verði.",
+    "image": "og-image.png",
+    "telephone": "+354-896-9610",
+    "priceRange": "50.000 kr",
+    "knowsLanguage": "is",
+    "areaServed": [
+      { "@type": "Place", "name": "Garðabær" },
+      { "@type": "Place", "name": "Höfuðborgarsvæðið" }
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Garðabær",
+      "addressCountry": "IS"
+    },
+    "founder": {
+      "@type": "Person",
+      "name": "Garðar Freyr Valdimarsson"
+    },
+    "makesOffer": {
+      "@type": "Offer",
+      "name": "Ein heimasíða",
+      "priceCurrency": "ISK",
+      "price": "50000"
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -514,7 +649,7 @@
   <!-- ═══ NAV ═══ -->
   <header class="nav" id="nav" role="banner">
     <div class="nav-inner">
-      <a href="#" class="logo" aria-label="Garðar — forsíða">
+      <a href="#" class="logo" aria-label="Garðar, forsíða">
         <span class="logo-mark" aria-hidden="true">G</span>
         Garðar
       </a>
@@ -543,12 +678,12 @@
             </div>
             <h1 class="hero-title reveal d1">
               Heimasíður sem<br/>
-              <span class="grad-text">láta þig finnast</span>
+              <span class="grad-text">koma þér á kortið</span>
             </h1>
             <p class="hero-sub reveal d2">
-              Ég hanna einfaldar og fallegar heimasíður fyrir lítil fyrirtæki — með
-              verðlagningu og bókun. Fast verð, hröð afhending og síða sem lítur
-              frábærlega út í síma og tölvu.
+              Ég hanna einfaldar og fallegar heimasíður fyrir lítil fyrirtæki, með
+              verðskrá og bókun. Fast verð, hröð afhending og síða sem lítur
+              vel út, bæði í síma og tölvu.
             </p>
             <div class="hero-actions reveal d3">
               <a href="#verkin" class="btn btn-primary btn-lg">
@@ -571,7 +706,7 @@
               </div>
               <div class="stat" role="listitem">
                 <span class="stat-num" data-count="100" data-suffix="%">0</span>
-                <span class="stat-label">í síma &amp; tölvu</span>
+                <span class="stat-label">í síma og tölvu</span>
               </div>
             </div>
           </div>
@@ -599,7 +734,7 @@
                     <div class="mk-cards">
                       <div class="mk-card"><b></b><em>Keramikhúð</em><span>5 ára vörn</span></div>
                       <div class="mk-card"><b></b><em>Lakkleiðrétt.</em><span>spegilgljái</span></div>
-                      <div class="mk-card"><b></b><em>Djúphreinsun</em><span>inni & úti</span></div>
+                      <div class="mk-card"><b></b><em>Djúphreinsun</em><span>inni og úti</span></div>
                     </div>
                   </div>
                 </div>
@@ -610,7 +745,7 @@
               </div>
               <div class="hero-float hero-float-2">
                 <span class="hf-ico" style="background:var(--purple-dim);color:var(--purple-lt)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.6L5.7 21.4 8 14 2 9.4h7.6z"/></svg></span>
-                <div><div class="hf-t">Finnst á Google</div><div class="hf-s">grunn SEO innifalið</div></div>
+                <div><div class="hf-t">Finnst á Google</div><div class="hf-s">fínstillt fyrir leit</div></div>
               </div>
             </div>
           </div>
@@ -624,7 +759,7 @@
         <div class="trust-inner">
           <div class="trust-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Fast verð, engin leyndarmál</div>
           <div class="trust-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Afhent á 7 dögum</div>
-          <div class="trust-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg> Fullkomið í síma</div>
+          <div class="trust-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg> Lítur vel út í síma</div>
           <div class="trust-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9M14 17H5M17 17a3 3 0 100-6 3 3 0 000 6zM7 7a3 3 0 100 6 3 3 0 000-6z"/></svg> Frí hýsing á Netlify</div>
         </div>
       </div>
@@ -636,11 +771,30 @@
         <div class="section-head reveal">
           <span class="eyebrow">Verkin mín</span>
           <h2 class="h-sec" id="verkin-t">Sýnidæmi um<br/>vinnuna mína</h2>
-          <p class="sub-sec">Smelltu til að skoða síðuna í beinni — hver síða er sérsniðin að fyrirtækinu og sinni þjónustu.</p>
+          <p class="sub-sec">Apex efst sýnir hvað ég get gert. Fyrir neðan eru alvöru sýnishorn fyrir viðskiptavini. Smelltu til að skoða hverja síðu.</p>
         </div>
-        <div class="proj-grid" id="proj-grid" role="list" aria-label="Valið verkefni"></div>
-        <p class="more-label reveal" id="more-label">Fleiri sýnidæmi</p>
-        <div class="proj-grid proj-grid-more" id="proj-grid-more" role="list" aria-label="Fleiri sýnidæmi"></div>
+
+        <!-- Featured flagship -->
+        <a class="feat reveal tilt" href="https://apex-detailin.netlify.app" target="_blank" rel="noopener" aria-label="Skoða Apex Detailing sýnishorn (opnast í nýjum flipa)">
+          <span class="feat-badge"><span class="dot" aria-hidden="true"></span>Aðal sýnishorn</span>
+          <div class="feat-visual" aria-hidden="true">
+            <span class="glow"></span>
+            <span class="grid-lines"></span>
+            <span class="feat-sweep"></span>
+            <span class="feat-wordmark">APEX<small>DETAILING</small></span>
+          </div>
+          <div class="feat-body">
+            <p class="feat-cat">Bílasnyrting · Sýnishorn</p>
+            <h3 class="feat-title">Apex Detailing</h3>
+            <p class="feat-desc">Flaggskips-sýnishorn með gagnvirku fyrir/eftir, bókunarformi og kvikmyndalegu útliti. Svona flott get ég gert.</p>
+            <span class="feat-cta">Skoða sýnishorn
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <p class="more-label reveal">Alvöru sýnishorn</p>
+        <div class="proj-grid" id="proj-grid" role="list" aria-label="Sýnishorn fyrir viðskiptavini"></div>
       </div>
     </section>
 
@@ -656,10 +810,10 @@
         </div>
         <div class="proc-grid">
           <div class="proc-line" aria-hidden="true"></div>
-          <div class="step reveal d1"><div class="step-num">1</div><h3>Spjall</h3><p>Við förum yfir hvað þú þarft og hvernig fyrirtækið þitt vill líta út. Ókeypis og óskuldbindandi.</p></div>
+          <div class="step reveal d1"><div class="step-num">1</div><h3>Spjall</h3><p>Við förum yfir hvað þú þarft og hvernig þú vilt að fyrirtækið líti út. Ókeypis og óskuldbindandi.</p></div>
           <div class="step reveal d2"><div class="step-num">2</div><h3>Hönnun</h3><p>Ég hanna síðuna eftir þínum óskum, með þínum litum, texta og myndum.</p></div>
           <div class="step reveal d3"><div class="step-num">3</div><h3>Yfirferð</h3><p>Þú skoðar síðuna og við lögum saman það sem þarf þangað til þú ert ánægð/ur.</p></div>
-          <div class="step reveal d4"><div class="step-num">4</div><h3>Í loftið</h3><p>Síðan fer í loftið, tilbúin fyrir viðskiptavini að finna þig og hafa samband.</p></div>
+          <div class="step reveal d4"><div class="step-num">4</div><h3>Í loftið</h3><p>Síðan fer í loftið, tilbúin svo viðskiptavinir finni þig og hafi samband.</p></div>
         </div>
       </div>
     </section>
@@ -672,13 +826,13 @@
         <div class="section-head reveal">
           <span class="eyebrow">Hvað ég geri</span>
           <h2 class="h-sec" id="thjonusta-t">Allt sem þú þarft<br/>á einum stað</h2>
-          <p class="sub-sec">Þú þarft ekki að kunna neitt tæknilegt — ég sé um allt frá hönnun til þess að koma síðunni í loftið.</p>
+          <p class="sub-sec">Þú þarft ekki að kunna neitt tæknilegt. Ég sé um allt, frá hönnun til þess að koma síðunni í loftið.</p>
         </div>
         <div class="svc-grid">
           <article class="svc reveal d1">
             <div class="svc-ico" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></div>
             <h3>Falleg hönnun</h3>
-            <p>Nútímaleg og fagleg hönnun sem byggir traust og lætur fyrirtækið þitt líta vel út — sérsniðin að þér.</p>
+            <p>Nútímaleg og fagleg hönnun sem byggir traust og lætur fyrirtækið þitt líta vel út, sérsniðin að þér.</p>
           </article>
           <article class="svc reveal d2">
             <div class="svc-ico" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
@@ -688,7 +842,7 @@
           <article class="svc reveal d3">
             <div class="svc-ico" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="m9 16 2 2 4-4"/></svg></div>
             <h3>Netbókun</h3>
-            <p>Viðskiptavinir geta bókað tíma eða haft samband beint í gegnum síðuna — án þess að þú þurfir að gera neitt.</p>
+            <p>Viðskiptavinir geta bókað tíma eða haft samband beint í gegnum síðuna, án þess að þú þurfir að gera neitt.</p>
           </article>
         </div>
       </div>
@@ -712,17 +866,17 @@
               <span class="price-num">50.000</span>
               <span class="price-unit">kr</span>
             </div>
-            <p class="price-note">Eitt fast verð — engar faldar gjaldtökur</p>
+            <p class="price-note">Eitt fast verð, engin falin gjöld</p>
             <div class="price-hr" aria-hidden="true"></div>
             <ul class="feats" role="list" aria-label="Hvað er innifalið">
               <li class="feat"><span class="feat-ic" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 6 4.5 9.5 11 2"/></svg></span> Ein síða með öllu sem þarf</li>
               <li class="feat"><span class="feat-ic" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 6 4.5 9.5 11 2"/></svg></span> Hröð og frí hýsing á Netlify</li>
-              <li class="feat"><span class="feat-ic" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 6 4.5 9.5 11 2"/></svg></span> Fullkomið í síma, spjaldtölvu og tölvu</li>
-              <li class="feat"><span class="feat-ic" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 6 4.5 9.5 11 2"/></svg></span> Grunn SEO svo þú finnist á Google</li>
-              <li class="feat"><span class="feat-ic" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 6 4.5 9.5 11 2"/></svg></span> Tengiliðaform eða samtalshnappur</li>
+              <li class="feat"><span class="feat-ic" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 6 4.5 9.5 11 2"/></svg></span> Lítur vel út í síma, spjaldtölvu og tölvu</li>
+              <li class="feat"><span class="feat-ic" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 6 4.5 9.5 11 2"/></svg></span> Fínstillt fyrir Google svo þú finnist</li>
+              <li class="feat"><span class="feat-ic" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 6 4.5 9.5 11 2"/></svg></span> Tengiliðaform eða spjallhnappur</li>
               <li class="feat"><span class="feat-ic" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 6 4.5 9.5 11 2"/></svg></span> Tilbúið á 7 virkum dögum</li>
             </ul>
-            <p class="price-extra"><strong style="color:var(--t2)">.is lén:</strong> kostar um 8.000 kr/ári til viðbótar — keypt sér og greitt beint til ISNIC. Þú átt lénið sjálf/ur.</p>
+            <p class="price-extra"><strong style="color:var(--t2)">.is lén:</strong> kostar um 8.000 kr á ári til viðbótar, keypt sér og greitt beint til ISNIC. Þú átt lénið sjálf/ur.</p>
             <a href="tel:+3548969610" class="btn btn-primary btn-lg">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81a19.79 19.79 0 01-3.07-8.64A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.6 6.6l1.29-1.29a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
               Fá tilboð í dag
@@ -744,7 +898,7 @@
         <div class="faq-list">
           <details class="faq reveal d1">
             <summary>Hvað kostar þetta nákvæmlega?<span class="faq-ic" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
-            <div class="faq-body">50.000 kr fyrir eina síðu — fast verð. Það eina sem getur bæst við er .is lén (um 8.000 kr/ári) sem þú átt sjálf/ur og greiðir beint til ISNIC.</div>
+            <div class="faq-body">50.000 kr fyrir eina síðu, fast verð. Það eina sem getur bæst við er .is lén (um 8.000 kr á ári) sem þú átt sjálf/ur og greiðir beint til ISNIC.</div>
           </details>
           <details class="faq reveal d1">
             <summary>Hvað tekur þetta langan tíma?<span class="faq-ic" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
@@ -752,11 +906,11 @@
           </details>
           <details class="faq reveal d1">
             <summary>Get ég breytt síðunni seinna?<span class="faq-ic" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
-            <div class="faq-body">Já — hafðu samband og ég uppfæri síðuna fyrir þig, hvort sem það er nýtt verð, myndir eða texti.</div>
+            <div class="faq-body">Já, hafðu samband og ég uppfæri síðuna fyrir þig, hvort sem það er nýtt verð, myndir eða texti.</div>
           </details>
           <details class="faq reveal d1">
             <summary>Hvað ef mér líkar ekki hönnunin?<span class="faq-ic" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
-            <div class="faq-body">Þá förum við yfir hana saman og ég lagfæri þangað til þú ert virkilega ánægð/ur. Þú borgar ekki fyrr en þú ert sátt/ur.</div>
+            <div class="faq-body">Þá förum við yfir hana saman og ég lagfæri þangað til þú ert ánægð/ur. Þú borgar ekki fyrr en þú ert sátt/ur.</div>
           </details>
         </div>
       </div>
@@ -767,7 +921,7 @@
       <div class="container">
         <div class="cta-wrap reveal">
           <h2 class="cta-title" id="samband-t">Tilbúin/n að byrja?</h2>
-          <p class="cta-sub">Hringdu, sendu SMS eða skilaboð á WhatsApp — ég svara fljótt og fyrsta spjallið er ókeypis.</p>
+          <p class="cta-sub">Hringdu, sendu SMS eða skilaboð á WhatsApp. Ég svara fljótt og fyrsta spjallið er ókeypis.</p>
           <div class="cta-btns">
             <a href="tel:+3548969610" class="btn btn-primary btn-lg">
               <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81a19.79 19.79 0 01-3.07-8.64A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.6 6.6l1.29-1.29a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
@@ -793,7 +947,7 @@
     <div class="container">
       <div class="footer-inner">
         <a href="#" class="logo"><span class="logo-mark" aria-hidden="true">G</span>Garðar</a>
-        <p>© 2025 Garðar Freyr Valdimarsson · Garðabær, Ísland · Vefhönnun fyrir lítil fyrirtæki</p>
+        <p>© 2026 Garðar Freyr Valdimarsson · Garðabær, Ísland · Vefhönnun fyrir lítil fyrirtæki</p>
       </div>
     </div>
   </footer>
@@ -814,130 +968,77 @@
     'use strict';
 
     /* ═══════════════════════════════════════════════════════════
-       PROJECTS — bæta við síðu = einn nýr hlutur í lista.
-       Hver hlutur fær sjálfkrafa fallegan "browser"-forskoðun.
-       featuredProjects = stóra sýnidæmið efst. moreProjects = minni fyrir neðan.
+       VERKIN MÍN — sex sýnishorn í grindinni fyrir neðan Apex.
+       Bæta við demo = einn nýr hlutur í þennan lista.
+       (Apex aðal-sýnishornið er sér, fyrir ofan grindina í HTML.)
+         from/to    = litir á litaskiptaþumli (gradient)
+         nameColor  = litur á nafninu á þumlinum
        ═══════════════════════════════════════════════════════════ */
-    const featuredProjects = [
-      {
-        name: "Apex Detailing",
-        type: "Bílasnyrting & keramikvörn",
-        url: "https://apex-detailin.netlify.app/",
-        domain: "apexdetailing.is",
-        theme: { bg:"#05060A", bg2:"#080A10", bg3:"#0e1c38", accent:"#1E6FFF", ctaText:"#ffffff", text:"#EEF1F7" },
-        preview: { brand:"APEX", eyebrow:"Bílasnyrting í Reykjavík", title:"Sýningarsals-\ngæði", cta:"Bóka tíma", ghost:"Þjónusta",
-          cards:[["Keramikhúð","5 ára vörn"],["Lakkleiðrétt.","spegilgljái"],["Djúphreinsun","inni & úti"]] }
-      }
+    const projects = [
+      { name: "Jad Mar Hárstofa", cat: "Hárstofa",
+        desc: "Verðskrá, opnunartímar alla daga og netbókun beint í Noona.",
+        url: "https://jadmar.netlify.app",
+        from: "#0c2417", to: "#1f4d31", nameColor: "#C9973F" },
+
+      { name: "Lava spa & nudd", cat: "Nuddstofa",
+        desc: "Meðferðarlisti, gjafabréf og bókun með hlýju hraun-þema.",
+        url: "https://lavademo.netlify.app",
+        from: "#15110f", to: "#b5470c", nameColor: "#F2A65A" },
+
+      { name: "Hárgreiðslustofa Garðabæ", cat: "Hárgreiðsla",
+        desc: "Þjónustulisti, gjafabréf og netbókun fyrir rótgróna stofu.",
+        url: "https://hargreidslustofa.netlify.app",
+        from: "#f3ece8", to: "#e7b6c6", nameColor: "#702F4E" },
+
+      { name: "Naglastofa Rakelar", cat: "Naglasnyrting",
+        desc: "Verðskrá, myndasafn og gjafabréf í mjúku, fáguðu útliti.",
+        url: "https://naglastofarakelar.netlify.app",
+        from: "#fbe4ec", to: "#f0dccf", nameColor: "#C9A36B" },
+
+      { name: "Studio Voff", cat: "Hundasnyrting",
+        desc: "Verðskrá eftir hundastærð, myndasafn og heimkeyrsla, leikandi og hlýtt.",
+        url: "https://studiovoff.netlify.app",
+        from: "#f6efe2", to: "#3DA89A", nameColor: "#E0A45E" },
+
+      { name: "Jenný Lashes & Brows", cat: "Augnhár og brúnir",
+        desc: "Dökk, glamúrleg síða með verðskrá, myndasafni og netbókun.",
+        url: "https://jennylashes.netlify.app",
+        from: "#0c0a0d", to: "#2e1424", nameColor: "#D8A7A0" }
     ];
 
-    const moreProjects = [
-      {
-        name: "Jad Mar Hárstofa",
-        type: "Hárstofa",
-        url: "https://shimmering-lily-c2fbdb.netlify.app/",
-        domain: "jadmar.is",
-        theme: { bg:"#0d2318", bg2:"#163322", bg3:"#1d4029", accent:"#d4af37", ctaText:"#1a1207", text:"#f5f0e1" },
-        preview: { brand:"JAD MAR", eyebrow:"Hárstofa í Garðabæ", title:"Hárið þitt,\nokkar listaverk", cta:"Bóka tíma", ghost:"Verðskrá",
-          cards:[["Klipping","frá 6.900"],["Litun","frá 12.900"],["Greiðsla","frá 8.500"]] }
-      },
-      {
-        name: "Hárgreiðslustofa Garðabæ",
-        type: "Hárgreiðsla",
-        url: "https://hargreidslustofa.netlify.app/",
-        domain: "hgardabaer.is",
-        theme: { bg:"#1a0f24", bg2:"#2d1840", bg3:"#43215f", accent:"#c084fc", ctaText:"#1a0a25", text:"#f3e9ff" },
-        preview: { brand:"HG GARÐABÆ", eyebrow:"Hárgreiðsla & stíll", title:"Nýtt útlit,\nný sjálfsmynd", cta:"Panta tíma", ghost:"Þjónusta",
-          cards:[["Dömuklipp","frá 7.900"],["Strípur","frá 15.900"],["Blástur","frá 5.500"]] }
-      },
-      {
-        name: "Lava Spa & Nudd",
-        type: "Nuddstofa",
-        url: "https://lavademo.netlify.app/",
-        domain: "lavaspa.is",
-        theme: { bg:"#160500", bg2:"#2d0e00", bg3:"#52190a", accent:"#f97316", ctaText:"#1a0700", text:"#fde8d8" },
-        preview: { brand:"LAVA SPA", eyebrow:"Nudd & vellíðan", title:"Slökun sem\nbræðir þreytuna", cta:"Bóka nudd", ghost:"Meðferðir",
-          cards:[["Heilnudd","60 mín"],["Heitir steinar","75 mín"],["Andlit","45 mín"]] }
-      }
-    ];
 
-    /* ── Build themed mini-mockup ── */
-    function mockup(p) {
-      const t = p.theme, v = p.preview;
-      const cards = v.cards.map(([title, sub]) =>
-        `<div class="mk-card"><b></b><em>${title}</em><span>${sub}</span></div>`).join('');
-      const style = [
-        `--mk-grad:linear-gradient(160deg,${t.bg},${t.bg2} 60%,${t.bg3})`,
-        `--mk-text:${t.text}`,
-        `--mk-muted:${hexA(t.text,.62)}`,
-        `--mk-faint:${hexA(t.text,.16)}`,
-        `--mk-accent:${t.accent}`,
-        `--mk-cta-text:${t.ctaText}`,
-        `--mk-card:rgba(255,255,255,.05)`
-      ].join(';');
-      return `
-        <div class="bf">
-          <div class="bf-bar">
-            <span class="bf-dot" style="background:#ff5f57"></span>
-            <span class="bf-dot" style="background:#febc2e"></span>
-            <span class="bf-dot" style="background:#28c840"></span>
-            <span class="bf-url">
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-              ${p.domain}
-            </span>
-          </div>
-          <div class="bf-screen">
-            <div class="mk" style="${style}">
-              <div class="mk-nav"><span class="mk-brand">${v.brand}</span><span class="mk-links"><i></i><i></i><i></i></span></div>
-              <div class="mk-hero">
-                <span class="mk-eyebrow">${v.eyebrow}</span>
-                <span class="mk-title">${v.title.replace(/\n/g,'&#10;')}</span>
-                <div class="mk-row"><span class="mk-cta">${v.cta}</span><span class="mk-ghost">${v.ghost}</span></div>
-              </div>
-              <div class="mk-cards">${cards}</div>
-            </div>
-          </div>
-        </div>`;
-    }
-
-    /* hex (#rrggbb) -> rgba string */
-    function hexA(hex, a) {
-      const h = hex.replace('#','');
-      const n = parseInt(h.length === 3 ? h.split('').map(c=>c+c).join('') : h, 16);
-      return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;
-    }
-
-    function buildCard(p, i, compact) {
+    function buildCard(p, i) {
       const a = document.createElement('a');
       a.href = p.url;
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
-      a.className = `proj reveal d${(i % 3) + 1}` + (compact ? ' proj-sm' : '');
+      a.className = `proj reveal tilt d${(i % 3) + 1}`;
       a.setAttribute('role', 'listitem');
       a.setAttribute('aria-label', `Skoða ${p.name} (opnast í nýjum flipa)`);
+      let host = p.url;
+      try { host = new URL(p.url).hostname.replace(/^www\./, ''); } catch (e) {}
+      const num = String(i + 1).padStart(2, '0');
+      const arrow = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
       a.innerHTML = `
-        <div class="proj-shot">${mockup(p)}</div>
+        <div class="proj-thumb" style="background:linear-gradient(135deg, ${p.from}, ${p.to})" aria-hidden="true">
+          <div class="proj-chrome"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="u">${host}</span></div>
+          <span class="proj-index">${num}</span>
+          <div class="proj-screen"><span class="proj-wordmark" style="color:${p.nameColor}">${p.name}</span></div>
+          <div class="proj-overlay"><span class="proj-open">Skoða síðuna ${arrow}</span></div>
+        </div>
         <div class="proj-body">
-          <div class="proj-meta">
-            <p class="proj-type">${p.type}</p>
-            <h3 class="proj-name">${p.name}</h3>
-          </div>
-          <span class="proj-go" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </span>`;
+          <span class="proj-type">${p.cat}</span>
+          <h3 class="proj-name">${p.name}</h3>
+          <p class="proj-desc">${p.desc}</p>
+          <span class="proj-link">Skoða síðuna ${arrow}</span>
+        </div>`;
       return a;
     }
 
     function renderProjects() {
       const grid = document.getElementById('proj-grid');
-      if (grid) {
-        featuredProjects.forEach((p, i) => grid.appendChild(buildCard(p, i, false)));
-        grid.classList.toggle('single', featuredProjects.length === 1);
-      }
-      const more = document.getElementById('proj-grid-more');
-      if (more) {
-        moreProjects.forEach((p, i) => more.appendChild(buildCard(p, i, true)));
-        document.getElementById('more-label')?.classList.toggle('hidden', moreProjects.length === 0);
-      }
+      if (!grid) return;
+      projects.forEach((p, i) => grid.appendChild(buildCard(p, i)));
     }
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1042,6 +1143,21 @@
       });
     }
 
+    /* ── 3D tilt-toward-cursor on featured + project cards (pointer only) ── */
+    function initTilt() {
+      if (reducedMotion || !window.matchMedia('(hover: hover)').matches) return;
+      document.querySelectorAll('.tilt').forEach(el => {
+        const max = el.classList.contains('feat') ? 4 : 7;
+        el.addEventListener('pointermove', (e) => {
+          const r = el.getBoundingClientRect();
+          const px = (e.clientX - r.left) / r.width - 0.5;
+          const py = (e.clientY - r.top) / r.height - 0.5;
+          el.style.transform = `perspective(1100px) rotateX(${(-py * max).toFixed(2)}deg) rotateY(${(px * max).toFixed(2)}deg) translateY(-6px)`;
+        });
+        el.addEventListener('pointerleave', () => { el.style.transform = ''; });
+      });
+    }
+
     /* ── Magnetic primary buttons (pointer only) ── */
     function initMagnetic() {
       if (reducedMotion || !window.matchMedia('(hover: hover)').matches) return;
@@ -1077,6 +1193,7 @@
       initScroll();
       initMobileBar();
       initSpotlight();
+      initTilt();
       initMagnetic();
       initNav();
     });
